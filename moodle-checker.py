@@ -28,10 +28,8 @@ def notify(phone_number):
     if phone_number and ('NAJDISI_CREDENTIALS' in os.environ):
         username, password = os.environ['NAJDISI_CREDENTIALS'].split(':', maxsplit=1)
         sms = SMSSender(username, password)
-        sms.send(
-            phone_number,
-            'Results are up :)'
-        )
+        for num in phone_number:
+            sms.send(num, 'Results are up :)')
 
     print('\n Results are up :)')
 
@@ -44,7 +42,7 @@ parser.add_argument('id', type=int,
                     help='id of the class')
 parser.add_argument('--timeout', type=int, default=180,
                     help='seconds between sequential refreshes [default: 180]')
-parser.add_argument('--phonenumber',
+parser.add_argument('--phonenumber', nargs='+',
                     help='phone number for receiving notifications')
 args = parser.parse_args()
 
